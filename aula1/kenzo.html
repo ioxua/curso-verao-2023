@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buscadores</title>
+  </head>
+  <body>
+    <h1>Buscadores</h1>
+    <form action="https://google.com/search?" method="get" id="search-form">
+        <label for="busca">
+            <h2>Faça sua busca</h2>
+        </label>
+
+        <input type="radio" id="bing" value="bing" name="engine">
+        <label for="bing">Bing</label>
+
+        <br>
+
+        <input type="radio" id="google" value="google" name="engine">
+        <label for="google">Google</label>
+
+        <br>
+      <input type="text" name="q" id="busca" />
+      <input id="submit-button" type="submit" value="Buscar" />
+    </form>
+
+    <script>
+        var form = document.getElementById('search-form')
+        form.onsubmit = function() {
+            if (this.engine.value === 'google') {
+                this.action = 'https://google.com/search'
+            } else {
+                this.action = 'https://bing.com/search'
+            }
+        }
+    </script>
+  </body>
+</html>
