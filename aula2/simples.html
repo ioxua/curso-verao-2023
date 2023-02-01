@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CSS!</title>
+
+    <!-- isto é um comentário! -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="estilo.css" />
+    <style>
+        h1, h2, h3 {
+            color: blue;
+            /* font-size: 0.222rem; */
+        }
+
+        #primeiro {
+            line-height: 4rem;
+        }
+
+        p.minha-classe {
+            font-family: 'Gloria Hallelujah';
+        }
+
+        div p {
+            background-color: violet;
+        }
+
+        div {
+            width: 100px;
+            height: 100px;
+            /* background-color: blue !important; */
+            background-color: blue;
+            margin-bottom: 5px;
+        }
+
+        div.minha-classe {
+            background-color: brown;
+        }
+
+        div#meu-id {
+            background-color: gold;
+        }
+
+    </style>
+  </head>
+  <body>
+    <h1>Cabeçalho!</h1>
+    <h2>Segundo</h2>
+    <h3>Terceiro</h3>
+
+    <p id="primeiro" class="minha-classe">
+      Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum
+      egestas augue arcu ut est.Sapien in monti palavris qui num significa nadis
+      i pareci latim.Si u mundo tá muito paradis? Toma um mé que o mundo vai
+      girarzis!Diuretics paradis num copo é motivis de denguis.
+    </p>
+
+    <p class="minha-classe">
+      Mussum Ipsum, cacilds vidis litro abertis. Delegadis gente finis, bibendum
+      egestas augue arcu ut est.Sapien in monti palavris qui num significa nadis
+      i pareci latim.Si u mundo tá muito paradis? Toma um mé que o mundo vai
+      girarzis!Diuretics paradis num copo é motivis de denguis.
+    </p>
+
+    <div>
+        <p>teste teste teste</p>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="minha-classe" id="meu-id"></div>
+    <div class="minha-classe" id="meu-id"></div>
+    <div class="minha-classe"></div>
+    <div class="minha-classe"></div>
+  </body>
+</html>
