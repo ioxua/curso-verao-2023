@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition</title>
+
+    <style>
+        button {
+            background-color: azure;
+            padding: 5px;
+            font-family: Helvetica, Impact, sans-serif;
+            /* font-family: Noto Sans, Impact, sans-serif; */
+            font-size: 24px;
+            transition: all 2s;
+            /* transition-property: background-color border-radius; */
+            /* transition-duration: 2s; */
+        }
+
+        button:hover {
+            background-color: red;
+            border-radius: 15px;
+            font-family: Impact;
+        }
+
+        #star {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transition: all 1s;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        #star:hover {
+            clip-path: polygon(51% 27%, 61% 35%, 73% 40%, 68% 57%, 67% 74%, 50% 70%, 33% 71%, 32% 57%, 25.00% 41.00%, 39% 35%);
+            /* clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%); */
+        }
+    </style>
+</head>
+<body>
+    <!-- <div id="loader"></div> -->
+    <button>Passe o mouse aqui</button>
+    <div id="star"></div>
+    <!-- <a href="#">E aqui!</a> -->
+
+</body>
+</html>
