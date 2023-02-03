@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Responsive Grid</title>
+    <style>
+        body {
+            margin: 0;
+        }
+      .item-a {
+        background-color: #f89326;
+        grid-area: header;
+      }
+      .item-b {
+        background-color: #3cbee6;
+        grid-area: main;
+      }
+      .item-c {
+        background-color: #eb7070;
+        grid-area: sidebar;
+      }
+      .item-d {
+        background-color: #73c575;
+        grid-area: footer;
+      }
+
+      .container {
+        height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: auto;
+        grid-template-areas:
+          "header header header header"
+          "main main . sidebar"
+          "footer footer footer footer";
+      }
+
+      @media screen and (max-width: 992px) {
+      .container {
+        grid-template-areas:
+          "header header header header"
+          "main main main main"
+          "sidebar sidebar sidebar sidebar"
+          "footer footer footer footer";
+      }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="item-d"></div>
+        <div class="item-b"></div>
+        <div class="item-a"></div>
+        <div class="item-c"></div>
+    </div>
+  </body>
+</html>

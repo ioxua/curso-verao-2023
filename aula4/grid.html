@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Grid</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        main {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+        }
+
+        .cell {
+            background-color: red;
+        }
+
+        .cell:nth-child(2n) {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </main>
+</body>
+</html>

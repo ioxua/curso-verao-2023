@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Javascript!</title>
+  </head>
+  <body>
+    <button onclick="console.log('clicou')">askdigyusad</button>
+    <script>
+      console.error("olá mundo!");
+      console.warn("olá mundo!");
+      console.log("olá mundo!");
+      console.info("asodiahs asd");
+      console.debug("debug this");
+    </script>
+    <script>
+      // const minhaVar = 'meu valor'
+      let minhaVar = "meu valor";
+      console.log("valor da minhaVar: " + minhaVar);
+
+      minhaVar = 123;
+      console.log("valor da minhaVar: " + minhaVar);
+
+      minhaVar = minhaVar + 1;
+    </script>
+    <script>
+      function oi(nomeDaPessoa, exclamacao) {
+        console.log("oi", nomeDaPessoa + exclamacao);
+      }
+      console.log("antes do oi");
+      oi("João", "!");
+      console.log("depois do oi");
+    </script>
+    <script>
+      console.log("sadasd\napsodsa \\");
+      const somar = function (a, b) {
+        console.log(`${a} + ${b} = ${a + b}`);
+      };
+      somar(1, 2);
+      console.log(somar);
+    </script>
+    <script>
+      const subtrair = (a, b) => {
+        console.log(`${a} - ${b} = ${a - b}`);
+      };
+      subtrair(5, 4);
+      console.log(subtrair);
+    </script>
+    <script>
+      let a = 2;
+      a = a * 3;
+      a *= 4;
+
+      function multiplicar(...n) {
+        console.log("valor do N", n);
+
+        let valor = n.reduceRight(function (valorAcumulado, valorAtual, idx) {
+          console.log(`Iteração número ${idx}`, valorAcumulado, valorAtual);
+          return valorAcumulado * valorAtual;
+        }, 1);
+
+        console.log(valor);
+      }
+
+      multiplicar(2, 4, 7);
+    </script>
+    <script>
+      const objeto = {
+        chave: "qwe",
+        numero: 123,
+        funcao: (param1, param2) => {
+          return "executou " + this.chave;
+        },
+      };
+      console.log(objeto);
+      console.log(objeto.numero);
+
+      let resultado = objeto.funcao();
+      console.log(resultado);
+
+      console.table([
+        { asd: 1, qwe: "12" },
+        { asd: 1, qwe: "12" },
+        { asd: 1, qwe: "12" },
+      ]);
+    </script>
+  </body>
+</html>
