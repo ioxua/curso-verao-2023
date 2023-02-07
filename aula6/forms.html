@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+        input.with-error {
+            border: 2px solid red;
+            color: red;
+        }
+
+        span.error-message {
+            font-size: 0.8rem;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="with-error">Teste</div> -->
+    <form id="form-cadastro">
+        <label for="user-name">Nome</label>
+        <input type="text" name="user-name" id="user-name" />
+        <!-- <span class="error-message">This is an error</span> -->
+
+        <br />
+        <label for="passwd">Senha</label>
+        <input type="password" name="passwd" id="passwd" />
+
+        <br />
+        <label for="passwd2">Confirme a senha</label>
+        <input type="password" name="passwd2" id="passwd2" />
+
+        <br />
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        const form = document.getElementById('form-cadastro')
+        const nameRegex = /\w+ \w+/i
+
+        const addErrorMessage = (el, message) => {
+            el.setCustomValidity(message)
+            el.classList.add('with-error')
+
+            const errorMessage = document.createElement('span')
+            errorMessage.classList.add('error-message')
+            errorMessage.innerText = message
+
+            el.insertAdjacentElement('afterend', errorMessage)
+        }
+
+        const removeErrorMessages = () => {
+            const inputsWithErrors = form.querySelectorAll('input.with-error')
+            inputsWithErrors.forEach(el => {
+                el.classList.remove('with-error')
+            })
+
+            const errorMessages = form.querySelectorAll('span.error-message')
+            for (const el of errorMessages) {
+                el.remove()
+            }
+        }
+
+        form.addEventListener('submit', (ev) => {
+            // console.log(ev)
+            ev.preventDefault()
+
+            const name = ev.target['user-name']
+
+            removeErrorMessages()
+
+            if (name.value === '') {
+                addErrorMessage(name, 'Nome obrigatório!')
+                return
+            } else if (!nameRegex.test(name.value)) {
+                addErrorMessage(name, 'insira nome e sobrenome')
+                return
+            }
+
+            const passwd = ev.target['passwd']
+            if (passwd.value === '') {
+                addErrorMessage(passwd, 'senha obrigatória')
+                return
+            }
+
+            const passwd2 = ev.target.passwd2
+            if (passwd2.value === '') {
+                addErrorMessage(passwd2, 'confirmação obrigatória')
+                return
+            } else if (passwd2.value !== passwd.value) {
+                addErrorMessage(passwd, 'senha e confirmação devem ser iguais')
+                addErrorMessage(passwd2, 'senha e confirmação devem ser iguais')
+                return
+            }
+
+            console.log(passwd)
+            // return false
+        })
+    </script>
+</body>
+</html>

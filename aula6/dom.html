@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DOM</title>
+    <style>
+      .destaque {
+        font-size: 1.7rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="meu-header">Título</h1>
+
+    <button id="girar-titulo">Girar o título</button>
+    <button id="texto-grande">Aumentar a fonte dos parágrafos</button>
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum quia
+      praesentium alias dolorem quaerat dolorum cupiditate unde in tempore
+      itaque sequi aperiam accusantium quod, provident ipsa beatae voluptatum
+      repellendus illo.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum quia
+      praesentium alias dolorem quaerat dolorum cupiditate unde in tempore
+      itaque sequi aperiam accusantium quod, provident ipsa beatae voluptatum
+      repellendus illo.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum quia
+      praesentium alias dolorem quaerat dolorum cupiditate unde in tempore
+      itaque sequi aperiam accusantium quod, provident ipsa beatae voluptatum
+      repellendus illo.
+    </p>
+
+    <script>
+      const header = document.getElementById("meu-header");
+      console.log(header);
+      header.innerHTML = "<em>meu novo0 titulo</em>";
+
+      const girar = document.getElementById("girar-titulo");
+      girar.onclick = () => {
+        if (header.style.transform === "") {
+          header.style.transform = "rotate(180deg)";
+        } else {
+          header.style.transform = "";
+        }
+      };        
+
+      const paragraphs = document.getElementsByTagName("p");
+      document.getElementById("texto-grande").onclick = () => {
+        // for (let i = 0; i < paragraphs.length; i++) {
+        //     const p = paragraphs[i]
+        // }
+
+        for (const p of paragraphs) {
+        //     if (p.classList.contains('destaque')) {
+        //         p.classList.remove('destaque')
+        //     } else {
+        //         p.classList.add('destaque')
+        //     }
+          p.classList.toggle('destaque')
+        }
+      };
+    </script>
+  </body>
+</html>

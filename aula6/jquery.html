@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="titulo">meu título</h1>
+
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, quas odit error totam consectetur animi aliquid libero ipsum, quis consequatur odio deleniti eos reprehenderit nesciunt. Reprehenderit explicabo voluptatibus molestias fugiat.</p>
+
+    <button id="random-button">Clique-me</button>
+    <button id="piada">Conte-me uma piada</button>
+
+    <table id="piadas">
+        <tr>
+            <th>Status</th>
+            <th>Piada</th>
+        </tr>
+    </table>
+
+    <script src="jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> -->
+    
+    <script>
+        const $titulo = $('#titulo')
+
+        $titulo.append('o resto do título')
+        $('<h2>meu subtitulo</h2>').insertAfter($titulo)
+
+        let textoAlterado = false
+        const textoOriginal = $titulo.text()
+        $('#random-button').on('click', (ev) => {
+            if (textoAlterado) {
+                $titulo.text(textoOriginal)
+            } else {
+                $titulo.text('alterei o título')
+            }
+            textoAlterado = !textoAlterado
+        })
+
+        const $piadas = $('#piadas')
+
+        const adicionarPiada = (status, piada) => {
+            const $conteudo = $(`<tr><td>${status}</td><td>${piada}</td></tr>`)
+            $piadas.append($conteudo)
+        }
+
+        $('#piada').click(function() {
+            const $this = $(this)
+            $this.attr('disabled', true)
+            $.ajax({
+                url: 'https://api.chucknorris.io/jokes/random',
+                method: 'GET',
+                // data: {},
+                success: (data) => {
+                    console.log(data)
+                    // window.alert(data.value)
+                    adicionarPiada('Sucesso', data.value)
+                },
+                error: (jqxhr, status) => {
+                    console.error('Error', status, jqxhr)
+                    // window.alert('Ocorreu um erro na requisição')
+                    adicionarPiada('Erro', '')
+                },
+                complete: () => {
+                    $this.attr('disabled', false)
+                }
+            })
+        })
+    </script>
+</body>
+</html>
