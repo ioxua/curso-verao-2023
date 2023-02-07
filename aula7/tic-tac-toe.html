@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tic tac toe</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Helvetica, Arial, sans-serif;
+      }
+
+      main {
+        height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+      }
+
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(15, 15, 15, 0.8);
+        color: white;
+        font-size: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+        align-items: center;
+        display: none;
+      }
+
+      #overlay div {
+        font-size: 1.3rem;
+      }
+
+      #overlay h2 {
+        font-size: 1.4rem;
+        margin: 0;
+      }
+
+      #overlay .options-container {
+        display: flex;
+        gap: 20px;
+      }
+
+      #overlay.show {
+        display: flex;
+      }
+
+      #overlay button {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      #overlay button:hover {
+        background: white;
+        color: black;
+      }
+
+      .cell {
+        background-color: rgb(246, 246, 246);
+        cursor: pointer;
+        font-size: 12rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .cell:nth-child(2n) {
+        background-color: rgb(155, 155, 155);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="overlay" class="show">
+      <span></span>
+
+      <div class="options-container">
+        <div class="options">
+          <h2>Quem começa</h2>
+          <div>
+            <input
+              type="radio"
+              name="1st-player"
+              id="plyr-x"
+              value="x"
+              checked
+            />
+            <label for="plyr-x">X</label>
+          </div>
+          <div>
+            <input type="radio" name="1st-player" id="plyr-o" value="o" />
+            <label for="plyr-o">O</label>
+          </div>
+        </div>
+
+        <div class="options">
+          <h2>Modo de jogo</h2>
+          <div>
+            <input type="radio" name="mode" id="pvp" value="pvp" checked />
+            <label for="2p">PvP</label>
+          </div>
+          <div>
+            <input type="radio" name="mode" id="easy" value="easy" />
+            <label for="easy">IA fácil</label>
+          </div>
+          <div>
+            <input type="radio" name="mode" id="medium" value="medium" />
+            <label for="medium">IA médio</label>
+          </div>
+        </div>
+      </div>
+
+      <button>(re)-iniciar jogo</button>
+    </div>
+    <main>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </main>
+
+    <script>
+      window.ioxua = {};
+      window.ioxua.utils = {
+        /// https://stackoverflow.com/a/42337722
+        getElementIndex: (element) => {
+          return Array.from(element.parentNode.children).indexOf(element);
+        },
+      };
+    </script>
+
+    <script>
+      window.ioxua.ias = {
+        easy: {
+          nextMove() {
+            const emptyCells = window.ioxua.state.table.reduce(
+              (acc, it, idx) => {
+                if (it === null) return [...acc, idx];
+                return acc;
+              },
+              []
+            );
+
+            const randomIdx = Math.floor(Math.random() * emptyCells.length);
+            // console.log(emptyCells);
+            return emptyCells[randomIdx];
+          },
+        },
+      };
+    </script>
+
+    <script>
+      const config = {
+        x: "✖",
+        o: "¤", // ○,
+        winStates: [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8], // linhas
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8], // colunas
+          [0, 4, 8],
+          [2, 4, 6], // diagonais
+        ],
+      };
+      window.ioxua.state = {
+        table: Array(9).fill(null),
+        playerIsX: true,
+        canAIPlay: true,
+        mode: "pvp",
+      };
+
+      // hehe
+      const state = window.ioxua.state;
+
+      const cells = document.getElementsByClassName("cell");
+      const overlay = document.getElementById("overlay");
+      const gameModes = document.getElementsByName("mode");
+      const startingPlayer = document.getElementsByName("1st-player");
+
+      const winnerText = overlay.querySelector("span");
+      const playAgain = overlay.querySelector("button");
+
+      const showOverlay = (text) => {
+        overlay.classList.add("show");
+        winnerText.innerHTML = text;
+      };
+
+      playAgain.addEventListener("click", () => {
+        state.playerIsX = true;
+        state.table = Array(9).fill(null);
+        for (const cell of cells) {
+          cell.innerText = "";
+        }
+        overlay.classList.remove("show");
+
+        for (const mode of gameModes) {
+          if (mode.checked) {
+            state.mode = mode.value;
+          }
+        }
+
+        for (const starter of startingPlayer) {
+          if (starter.checked) {
+            state.playerIsX = starter.value === "x";
+          }
+        }
+      });
+
+      const hasWinner = () => {
+        /// null | X | O | =
+
+        for (const winState of config.winStates) {
+          const firstValue = state.table[winState[0]];
+          if (
+            firstValue !== null &&
+            // firstValue === state.table[winState[1]] === state.table[winState[2]]
+            firstValue === state.table[winState[1]] &&
+            state.table[winState[1]] === state.table[winState[2]]
+          ) {
+            return firstValue;
+          }
+        }
+
+        if (state.table.every((it) => it !== null)) {
+          return "=";
+        }
+
+        return null;
+      };
+
+      const onClickCell = (ev) => {
+        // console.log("clicou na celula", ev.targ);
+        const index = window.ioxua.utils.getElementIndex(ev.target);
+        // console.log("clicou no indice", index);
+
+        if (state.table[index] === null) {
+          if (state.playerIsX) {
+            ev.target.innerText = state.table[index] = config.x;
+          } else {
+            ev.target.innerText = state.table[index] = config.o;
+          }
+
+          state.playerIsX = !state.playerIsX;
+
+          const winner = hasWinner();
+
+          //   console.log("alguem venceu?", winner);
+          if (winner !== null) {
+            if (winner === "=") {
+              showOverlay("Deu empate!");
+            } else {
+              showOverlay(`<strong>${winner}</strong> venceu!`);
+            }
+          }
+        }
+
+        if (state.mode !== "pvp" && state.canAIPlay) {
+          state.canAIPlay = false;
+          const moveIndex = window.ioxua.ias[state.mode].nextMove();
+          cells[moveIndex].click();
+          state.canAIPlay = true;
+        }
+      };
+
+      //   console.log(cells);
+      for (const cell of cells) {
+        cell.addEventListener("click", onClickCell);
+      }
+    </script>
+  </body>
+</html>
