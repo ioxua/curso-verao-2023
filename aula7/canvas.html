@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Canvas!</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 14px;
+      }
+      main {
+        display: flex;
+      }
+
+      aside {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <canvas id="painel" width="800" height="600">
+        Por favor habilite o JS
+      </canvas>
+
+      <aside>
+        <div>
+          <label for="color">Cor</label><br />
+          <input type="color" id="color" value="#00ff00" />
+        </div>
+
+        <div>
+          <label for="mode">Pincel</label><br />
+          <select id="mode">
+            <option value="square" checked>Square</option>
+            <option value="circle">Circle</option>
+            <option value="circle-str">Circle stroke</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="mode">Tamanho</label><br />
+          <input type="range" id="size" min="1" max="80" value="10" />
+        </div>
+
+        <button id="clear">Limpar</button>
+        <button id="download">Baixar</button>
+      </aside>
+    </main>
+
+    <script>
+      const state = {
+        isMouseDown: false,
+        color: "",
+        mode: "",
+        size: 0,
+      };
+
+      const canvas = document.getElementById("painel");
+      const ctx = canvas.getContext("2d");
+
+      // renderer functions
+
+      const clearCanvas = () => {
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      };
+
+      // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
+      const saveCanvas = () => {
+        const link = document.createElement("a");
+        link.download = "download.png";
+        link.href = canvas.toDataURL();
+        link.click();
+        link.delete;
+      };
+
+      const renderSquare = (x, y) => {
+        const squareX = x - state.size / 2;
+        const squareY = y - state.size / 2;
+        ctx.fillStyle = state.color;
+        ctx.fillRect(squareX, squareY, state.size, state.size);
+      };
+
+      const renderCircle = (x, y, fill = false) => {
+        ctx.beginPath();
+        ctx.ellipse(x, y, state.size, state.size, 0, 0, 2 * Math.PI);
+
+        if (fill) {
+          ctx.fillStyle = state.color;
+          ctx.fill();
+        } else {
+          ctx.strokeStyle = state.color;
+          ctx.stroke();
+        }
+      };
+
+      // renderer functions
+      // setup inputs
+
+      const colorEl = document.getElementById("color");
+      state.color = colorEl.value;
+      colorEl.addEventListener("change", function () {
+        state.color = colorEl.value;
+      });
+
+      const modeEl = document.getElementById("mode");
+      state.mode = modeEl.value;
+      colorEl.addEventListener("change", function () {
+        state.mode = modeEl.value;
+      });
+
+      const sizeEl = document.getElementById("size");
+      state.size = parseInt(sizeEl.value);
+      sizeEl.addEventListener("change", function () {
+        state.size = parseInt(sizeEl.value);
+      });
+
+      document.getElementById("clear").addEventListener("click", clearCanvas);
+      document.getElementById("download").addEventListener("click", saveCanvas);
+
+      // end setup inputs
+
+      canvas.addEventListener("mousedown", () => {
+        state.isMouseDown = true;
+      });
+
+      canvas.addEventListener("mouseup", () => {
+        state.isMouseDown = false;
+      });
+
+      canvas.addEventListener("mousemove", (ev) => {
+        if (state.isMouseDown) {
+          if (state.mode === "square") {
+            renderSquare(ev.x, ev.y);
+          } else if (state.mode === "circle") {
+            renderCircle(ev.x, ev.y, true);
+          } else if (state.mode === "circle-str") {
+            renderCircle(ev.x, ev.y, false);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
