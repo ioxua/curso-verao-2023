@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @returns 'smartphone' | 'tablet' | 'desktop'
+       *
+       * @see https://developers.google.com/search/blog/2011/03/mo-better-to-also-detect-mobile-user
+       * @see https://stackoverflow.com/a/62980873
+       * @see https://stackoverflow.com/a/7763277
+       * @see https://stackoverflow.com/a/60973153
+       */
+      function getDevice() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isMobile =
+          /iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(
+            userAgent
+          );
+
+        if (!isMobile) return "desktop";
+
+        if (userAgent.includes("android")) {
+          if (userAgent.includes("mobile")) return "smartphone";
+          else return "tablet";
+        }
+
+        const iPad = Boolean(
+          userAgent.includes("ipad") ||
+            (navigator.platform === "MacIntel" &&
+              typeof navigator.standalone !== "undefined")
+        );
+
+        if (iPad) return "tablet";
+        if (userAgent.includes("mac os") || userAgent.includes("machintosh"))
+          return "smartphone";
+
+        // tratar outros sistemas operacionais aqui...
+
+        // retorno padrão
+        return "smartphone";
+      }
+    </script>
+  </body>
+</html>
